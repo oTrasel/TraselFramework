@@ -1,0 +1,18 @@
+{
+    "name": "trase/trasel-framework",
+    "autoload": {
+        "psr-4": {
+            "Routes\\": "app/Routes/",
+            "Controllers\\": "app/Controllers/",
+            "Models\\": "app/Models/",
+            "Helpers\\": "app/Helpers/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lucas",
+            "email": "trasel.lucas02@gmail.com"
+        }
+    ],
+    "require": {}
+}
