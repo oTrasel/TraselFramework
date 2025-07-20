@@ -34,11 +34,8 @@ class Migrate
             sort($files);
             $this->createTableMigrations();
 
-            if ($argv[1] == "up") {
-                echo $this->up($files);
-            } else {
-                echo $this->rollback();
-            }
+            echo $this->{$argv[1]}($files);
+
 
         } catch (Exception $e) {
             echo "Erro: " . $e->getMessage();
