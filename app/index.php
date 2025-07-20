@@ -1,6 +1,6 @@
 <?php
 
-require("../vendor/autoload.php");
+require_once (__DIR__ . '/../vendor/autoload.php');
 
 use Helpers\Routes;
 
@@ -43,6 +43,10 @@ class Index{
         }
     }
 
+}
+
+if (session_status() === PHP_SESSION_NONE){
+    session_start();
 }
 
 $index = new Index();
