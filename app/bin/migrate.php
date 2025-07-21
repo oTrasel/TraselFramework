@@ -11,7 +11,7 @@ class Migrate
 
     public function __construct($argc, $argv)
     {
-        $this->migrationsPath = __DIR__ . '/../database/migrations';
+        $this->migrationsPath = __DIR__ . '/../Database/migrations';
         $this->envPath = __DIR__ . '../../';
         
         $this->validateArguments($argc, $argv);
