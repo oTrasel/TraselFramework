@@ -1,8 +1,8 @@
 <?php
 
 if ($argc < 2) {
-    echo "Nome da migration é obrigatório.\n";
-    echo "Uso: php make-migration.php NomeDaMigration [descricao_opcional]\n";
+    echo "\n\033[31m[ERRO]\033[0m Migration name is required.\n";
+    echo "USE: composer make:migration MigrationName \n\n";
     exit(1);
 }
 
@@ -37,4 +37,5 @@ return new class {
 PHP;
 
 file_put_contents($filepath, $template);
-echo "Migration criada: app/database/migrations/$filename\n";
+$message = "app/database/migrations/$filename";
+echo "\n\033[32m[MIGRATION CREATED]\033[0m {$message}\n\n";
