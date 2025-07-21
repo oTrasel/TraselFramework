@@ -11,7 +11,7 @@ $formattedName = implode('', $nameParts);
 $timestamp = date('dmY_His');
 $filename = "{$timestamp}_{$formattedName}.php";
 
-$directory = __DIR__ . '/app/database/migrations';
+$directory = __DIR__ . '/../database/migrations';
 $filepath = "$directory/$filename";
 
 if (!is_dir($directory)) {
