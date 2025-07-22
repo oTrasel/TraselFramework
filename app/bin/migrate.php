@@ -247,13 +247,13 @@ class Migrate
     private function displayError($message)
     {
         echo "\n\033[31m[ERROR]\033[0m {$message}\n\n";
-        exit(1);
+        exit;
     }
 
     private function displaySuccess($message)
     {
         echo "\n\033[32m[SUCCESS]\033[0m {$message}\n\n";
-        exit(0);
+        exit;
     }
 }
 

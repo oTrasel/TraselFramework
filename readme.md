@@ -78,6 +78,14 @@ A simple PHP MVC framework with routing, controllers, views, and database migrat
 - Create controllers in [`app/Controllers/`](app/Controllers/).
 - Add views in [`app/Views/`](app/Views/).
 
+## ORM
+
+   - To create an Model:
+
+     ```sh
+     composer make:model ModelName
+     ```
+
 ## License
 
 This project is licensed under the [Apache 2.0 License](LICENSE)

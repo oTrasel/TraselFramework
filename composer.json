@@ -20,6 +20,7 @@
     "scripts": {
         "make:migration": "php app/Bin/make-migration.php",
         "migrate": "php app/bin/migrate.php up",
-        "migrate:rollback": "php app/Bin/migrate.php rollback"
+        "migrate:rollback": "php app/Bin/migrate.php rollback",
+        "make:model": "php app/Bin/make-model.php"
     }
 }

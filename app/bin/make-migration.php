@@ -3,7 +3,7 @@
 if ($argc < 2) {
     echo "\n\033[31m[ERRO]\033[0m Migration name is required.\n";
     echo "USE: composer make:migration MigrationName \n\n";
-    exit(1);
+    exit;
 }
 
 $nameParts = array_slice($argv, 1);
