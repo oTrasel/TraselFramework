@@ -34,8 +34,7 @@ class Migrate
             $dotenv = Dotenv\Dotenv::createImmutable($this->envPath);
             $dotenv->load();
 
-            $dataBase = new Database();
-            $this->pdo = $dataBase->getPdo();
+            $this->pdo = Database::getPdo();
             $this->createTableMigrations();
 
         } catch (Exception $e) {

@@ -21,8 +21,6 @@ if (!is_dir($directory)) {
 $template = <<<PHP
 <?php
 
-use Helpers\Database;
-
 return new class {
     public function up(PDO \$pdo)
     {
