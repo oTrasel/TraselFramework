@@ -12,29 +12,26 @@ abstract class Model {
     protected static string $primaryKey;
     protected static bool $incremental = true;
 
-    private function __construct()
+    public function __construct()
     {
         $this->pdo = Database::getPdo();
     }
 
     public function find(int $id){
-        $stmt = $this->pdo->prepare("SELECT * FROM :table where :primaryKey = :id");
-        $stmt->execute([
-            'table' => static::$table,
-            'primaryKey' => static::$primaryKey,
-            'id' => $id
-        ]);
+        $table = static::$table;
+        $primaryKey = static::$primaryKey;
+        $stmt = $this->pdo->prepare("SELECT * FROM {$table} where {$primaryKey} = :id");
+        $stmt->execute(['id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $data ? static::mapToObject($data) : null;
+        return $data ? (object)$data : null;
     }
 
-    private static function mapToObject(array $data){
-        $object = new static();
-        foreach ($data as $key => $value){
-            $object->$key = $value;
-        }
+    public function getAll(){
+        $stmt = $this->pdo->prepare("SELECT * FROM " . static::$table);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $object;
+        return array_map(fn($item) => (object)$item, $data);
     }
 }

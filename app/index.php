@@ -48,6 +48,8 @@ class Index{
 if (session_status() === PHP_SESSION_NONE){
     session_start();
 }
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $index = new Index();
 
