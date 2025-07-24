@@ -4,23 +4,52 @@ namespace Helpers;
 
 use Exception;
 
+/**
+ * Class Routes
+ *
+ * Handles route registration and dispatching for HTTP requests.
+ *
+ * @package Helpers
+ */
 class Routes
 {
+    /**
+     * Registered routes.
+     * @var array
+     */
     private static $routes = [
         "GET" => [],
         "POST" => [],
     ];
 
+    /**
+     * Register a GET route.
+     *
+     * @param string $endpoint
+     * @param string $action
+     */
     public static function get($endpoint, $action)
     {
         self::$routes["GET"][$endpoint] = $action;
     }
 
+    /**
+     * Register a POST route.
+     *
+     * @param string $endpoint
+     * @param string $action
+     */
     public static function post($endpoint, $action)
     {
         self::$routes["POST"][$endpoint] = $action;
     }
 
+    /**
+     * Dispatch the request to the appropriate controller and handler.
+     *
+     * @param array $request
+     * @throws Exception
+     */
     public static function dispatch($request)
     {
         $method = $request['method'];

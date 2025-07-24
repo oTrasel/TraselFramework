@@ -6,16 +6,58 @@ use Exception;
 use PDO;
 use PDOException;
 
+/**
+ * Class Database
+ *
+ * Singleton class for managing the PDO connection to the database.
+ * Reads configuration from environment variables.
+ *
+ * @package Helpers
+ */
 class Database
 {
+    /**
+     * The PDO instance.
+     * @var PDO|null
+     */
     private static ?PDO $pdo = null;
 
+    /**
+     * Database name.
+     * @var string
+     */
     private static $DB_NAME;
+
+    /**
+     * Database user.
+     * @var string
+     */
     private static $DB_USER;
+
+    /**
+     * Database password.
+     * @var string
+     */
     private static $DB_PASSWORD;
+
+    /**
+     * Database host.
+     * @var string
+     */
     private static $DB_HOST;
+
+    /**
+     * Database port.
+     * @var int
+     */
     private static $DB_PORT = 5432;
 
+    /**
+     * Get the PDO connection instance.
+     *
+     * @return PDO
+     * @throws Exception
+     */
     public static function getPdo(): PDO
     {
         if (self::$pdo === null) {
@@ -33,7 +75,7 @@ class Database
                 );
                 self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                throw new Exception("Erro ao conectar ao banco: " . $e->getMessage());
+                throw new Exception("Database connection error: " . $e->getMessage());
             }
         }
 

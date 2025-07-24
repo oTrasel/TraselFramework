@@ -3,12 +3,34 @@ require_once (__DIR__ . '/../../vendor/autoload.php');
 
 use Helpers\Database;
 
+/**
+ * Class Migrate
+ *
+ * Handles database migrations: applying and rolling back migration files.
+ */
 class Migrate
 {
+    /**
+     * @var PDO The PDO database connection.
+     */
     private $pdo;
+
+    /**
+     * @var string Path to the migrations directory.
+     */
     private $migrationsPath;
+
+    /**
+     * @var string Path to the environment (.env) directory.
+     */
     private $envPath;
 
+    /**
+     * Migrate constructor.
+     *
+     * @param int $argc
+     * @param array $argv
+     */
     public function __construct($argc, $argv)
     {
         $this->migrationsPath = __DIR__ . '/../Database/migrations';
@@ -19,6 +41,12 @@ class Migrate
         $this->run($argv[1]);
     }
 
+    /**
+     * Validate CLI arguments.
+     *
+     * @param int $argc
+     * @param array $argv
+     */
     private function validateArguments($argc, $argv)
     {
         $options = ["up", "rollback"];
@@ -28,6 +56,11 @@ class Migrate
         }
     }
 
+    /**
+     * Initialize database connection and environment.
+     *
+     * @throws Exception
+     */
     private function initializeDatabase()
     {
         try {
@@ -42,6 +75,11 @@ class Migrate
         }
     }
 
+    /**
+     * Run the migration command.
+     *
+     * @param string $command
+     */
     private function run($command)
     {
         try {
@@ -60,6 +98,12 @@ class Migrate
         }
     }
 
+    /**
+     * Get all migration files.
+     *
+     * @return array
+     * @throws Exception
+     */
     private function getMigrationFiles()
     {
         $files = glob($this->migrationsPath . '/*.php');
@@ -72,6 +116,13 @@ class Migrate
         return $files;
     }
 
+    /**
+     * Apply all new migrations.
+     *
+     * @param array $files
+     * @return string
+     * @throws Exception
+     */
     private function up($files)
     {
         $appliedMigrations = [];
@@ -93,6 +144,13 @@ class Migrate
             : "Applied migrations:\n- " . implode("\n- ", $appliedMigrations);
     }
 
+    /**
+     * Rollback the last batch of migrations.
+     *
+     * @param array $files
+     * @return string
+     * @throws Exception
+     */
     private function rollback($files)
     {
         $lastBatch = $this->getLastBatch();
@@ -114,6 +172,12 @@ class Migrate
         return "Rolled back migrations:\n- " . implode("\n- ", $rollbackMigrations);
     }
 
+    /**
+     * Check if a migration has already been applied.
+     *
+     * @param string $migrationName
+     * @return bool
+     */
     private function isMigrationApplied($migrationName)
     {
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM migrations WHERE migration = :migration");
@@ -121,6 +185,14 @@ class Migrate
         return $stmt->fetchColumn() > 0;
     }
 
+    /**
+     * Apply a single migration.
+     *
+     * @param string $file
+     * @param string $migrationName
+     * @param int $batch
+     * @throws Exception
+     */
     private function applyMigration($file, $migrationName, $batch)
     {
         if (!file_exists($file)) {
@@ -152,6 +224,14 @@ class Migrate
         }
     }
 
+    /**
+     * Rollback a single migration.
+     *
+     * @param string $file
+     * @param string $migrationName
+     * @param int $batch
+     * @throws Exception
+     */
     private function rollbackMigration($file, $migrationName, $batch)
     {
         if (!file_exists($file)) {
@@ -183,6 +263,11 @@ class Migrate
         }
     }
 
+    /**
+     * Create the migrations table if it does not exist.
+     *
+     * @throws Exception
+     */
     private function createTableMigrations()
     {
         $stmt = $this->pdo->query("SELECT to_regclass('migrations') as exists");
@@ -211,6 +296,12 @@ class Migrate
         }
     }
 
+    /**
+     * Get the next batch number for migrations.
+     *
+     * @return int
+     * @throws Exception
+     */
     private function getNextBatch()
     {
         try {
@@ -222,6 +313,12 @@ class Migrate
         }
     }
 
+    /**
+     * Get the last batch number for migrations.
+     *
+     * @return int
+     * @throws Exception
+     */
     private function getLastBatch()
     {
         try {
@@ -233,6 +330,13 @@ class Migrate
         }
     }
 
+    /**
+     * Get all migrations for a given batch.
+     *
+     * @param int $batch
+     * @return array
+     * @throws Exception
+     */
     private function getMigrationsByBatch($batch)
     {
         try {
@@ -244,12 +348,22 @@ class Migrate
         }
     }
 
+    /**
+     * Display an error message and exit.
+     *
+     * @param string $message
+     */
     private function displayError($message)
     {
         echo "\n\033[31m[ERROR]\033[0m {$message}\n\n";
         exit;
     }
 
+    /**
+     * Display a success message and exit.
+     *
+     * @param string $message
+     */
     private function displaySuccess($message)
     {
         echo "\n\033[32m[SUCCESS]\033[0m {$message}\n\n";
