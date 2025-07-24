@@ -36,7 +36,17 @@ use Helpers\Model;
 class $modelName extends Model {
 
     protected static string $table;
-    protected static string $primaryKey = "id"; 
+    protected static string $primaryKey = "id";
+
+    // Fill with the names of the columns in your table.
+
+    // Example:
+
+    // protected static array \$columns = [
+    //     'column1',
+    //     'column2',
+    //     'column3'
+    // ];
 
 };
 PHP;
