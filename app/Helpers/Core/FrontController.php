@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Helpers\Core;
 
 use Exception;
 use Helpers\Core\Routes;
@@ -20,8 +20,8 @@ class FrontController
      */
     public function __construct()
     {
-        require 'Routes/web.php';
-        require 'Routes/api.php';
+        require APP_DIR . 'Routes/api.php';
+        require APP_DIR . 'Routes/web.php';
     }
 
     /**
@@ -29,7 +29,7 @@ class FrontController
      */
     private function setUri()
     {
-        $_REQUEST["endpoint"] = str_replace("/TraselFramework/", "", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        $_REQUEST["endpoint"] = str_replace(REQUEST_REPLACE, "", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         if (empty($_REQUEST["endpoint"])) {
             $_REQUEST["endpoint"] = "/";
         }
