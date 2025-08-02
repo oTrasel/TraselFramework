@@ -113,7 +113,7 @@ abstract class Model
         $pkName = static::$primaryKey;
 
         try {
-            $pdo->beginTransaction();
+
             $fields = array_keys($this->attributes);
             if ($this->exists) {
 
@@ -134,12 +134,7 @@ abstract class Model
 
                 $this->exists = true;
             }
-            $pdo->commit();
         } catch (Exception $e) {
-            if ($pdo->inTransaction()) {
-                $pdo->rollBack();
-            }
-
             throw new Exception('Error: ' . $e->getMessage());
         }
     }
@@ -153,8 +148,6 @@ abstract class Model
         $pdo = Database::getPdo();
 
         try{
-            $pdo->beginTransaction();
-
             $table = static::$table;
             $pkValue = $this->attributes[static::$primaryKey];
             $pkName = static::$primaryKey;
@@ -164,14 +157,9 @@ abstract class Model
                 $pkName => $pkValue
             ]);
 
-            $pdo->commit();
-
             $this->exists = false;
             $this->attributes = [];
         }catch (Exception $e) {
-            if ($pdo->inTransaction()){
-                $pdo->rollBack();
-            }
             throw new Exception('Error: ' . $e->getMessage());
         }
     }
