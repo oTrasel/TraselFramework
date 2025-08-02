@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Helpers\View; 
+use Helpers\Facilities\View;
 
 class HomeController {
 

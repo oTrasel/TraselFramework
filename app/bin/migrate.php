@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../vendor/autoload.php');
 
-use Helpers\Database;
+use Helpers\Core\Database;
 
 /**
  * Class Migrate
@@ -34,7 +34,7 @@ class Migrate
     public function __construct($argc, $argv)
     {
         $this->migrationsPath = __DIR__ . '/../Database/migrations';
-        $this->envPath = __DIR__ . '../../';
+        $this->envPath = __DIR__ . '../../../';
         
         $this->validateArguments($argc, $argv);
         $this->initializeDatabase();

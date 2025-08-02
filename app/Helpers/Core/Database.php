@@ -1,6 +1,6 @@
 <?php
 
-namespace Helpers;
+namespace Helpers\Core;
 
 use Exception;
 use PDO;
@@ -80,33 +80,5 @@ class Database
         }
 
         return self::$pdo;
-    }
-
-    /**
-     * Begins a new database transaction if one is not already active.
-     *
-     * @return void
-     */
-    public static function beginTransaction(){
-        $pdo = self::getPdo();
-        if (!$pdo->inTransaction()) {
-            $pdo->beginTransaction();
-        }
-    }
-
-    /**
-     * Commits the current database transaction if one is active.
-     *
-     * @return void
-     */
-    public static function commit(){
-        $pdo = self::getPdo();
-        if (!$pdo->inTransaction()) {
-            $pdo->commit();
-        }
-    }
-
-    public static function select(string $sql, array $paramns){
-        
     }
 }

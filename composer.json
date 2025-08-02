@@ -5,7 +5,8 @@
             "Routes\\": "app/Routes/",
             "Controllers\\": "app/Controllers/",
             "Models\\": "app/Models/",
-            "Helpers\\": "app/Helpers/"
+            "Helpers\\": "app/Helpers/",
+            "App\\": "app/"
         }
     },
     "authors": [

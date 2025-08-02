@@ -1,18 +1,20 @@
 <?php
 
-require_once (__DIR__ . '/../vendor/autoload.php');
+namespace App;
 
-use Helpers\Routes;
+use Exception;
+use Helpers\Core\Routes;
+
 
 /**
- * Class Index
+ * Class FrontController
  *
  * Application entry point. Handles route loading, request parsing, and dispatching.
  */
-class Index
+class FrontController
 {
     /**
-     * Index constructor.
+     * FrontController constructor.
      *
      * Loads web and API routes.
      */
@@ -27,7 +29,7 @@ class Index
      */
     private function setUri()
     {
-        $_REQUEST["endpoint"] = str_replace("/TraselFramework/app", "", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        $_REQUEST["endpoint"] = str_replace("/TraselFramework/", "", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         if (empty($_REQUEST["endpoint"])) {
             $_REQUEST["endpoint"] = "/";
         }
@@ -69,16 +71,4 @@ class Index
         }
     }
 }
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-$index = new Index();
-
-$index->dispatch();
-
 ?>

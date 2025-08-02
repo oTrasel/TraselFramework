@@ -1,6 +1,6 @@
 <?php
 
-use Helpers\Routes;
+use Helpers\Core\Routes;
 
 Routes::get('/', 'HomeController@index');
-Routes::get('/contact', 'ContactController@index');
+Routes::get('contact', 'ContactController@index');
