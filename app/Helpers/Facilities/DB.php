@@ -25,8 +25,20 @@ class DB extends Database{
      */
     public static function commit(){
         $pdo = self::getPdo();
-        if (!$pdo->inTransaction()) {
+        if ($pdo->inTransaction()) {
             $pdo->commit();
+        }
+    }
+
+    /**
+     * Rollback the current database transaction if one is active.
+     *
+     * @return void
+     */
+    public static function rollback(){
+        $pdo = self::getPdo();
+        if ($pdo->inTransaction()) {
+            $pdo->rollback();
         }
     }
 
