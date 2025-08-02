@@ -1,9 +1,14 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Redireciona tudo para index.php, exceto arquivos e pastas existentes
+
+    RewriteCond %{REQUEST_URI} !^/index\.php$
+
+
+    RewriteRule ^(composer\.json|composer\.lock|\.env|\.git|\.htaccess|Architecture\.drawio|Processos\.drawio|readme\.md|LICENSE|vendor|app|\.vscode) - [F,L]
+
+
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-
     RewriteRule ^ index.php [QSA,L]
 </IfModule>
