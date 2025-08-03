@@ -85,7 +85,7 @@ class Routes
      * @param string $endpoint The original route endpoint.
      * @return string The endpoint with the applied prefix.
      */
-    private function applyPrefix(string $endpoint)
+    private static function applyPrefix(string $endpoint)
     {
         if (!empty(self::$currentPrefix && self::$currentPrefix !== null)) {
             if (trim($endpoint) == "/") {
