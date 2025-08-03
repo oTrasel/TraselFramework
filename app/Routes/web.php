@@ -2,5 +2,10 @@
 
 use Helpers\Core\Routes;
 
-Routes::get('/', 'HomeController@index');
+Routes::group([
+    'prefix' => 'home'
+], function () {
+    Routes::get('/', 'HomeController@index');
+});
+
 Routes::get('contact', 'ContactController@index');
