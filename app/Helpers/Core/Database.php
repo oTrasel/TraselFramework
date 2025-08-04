@@ -26,31 +26,31 @@ class Database
      * Database name.
      * @var string
      */
-    private static $DB_NAME;
+    private static string $DB_NAME;
 
     /**
      * Database user.
      * @var string
      */
-    private static $DB_USER;
+    private static string $DB_USER;
 
     /**
      * Database password.
      * @var string
      */
-    private static $DB_PASSWORD;
+    private static string $DB_PASSWORD;
 
     /**
      * Database host.
      * @var string
      */
-    private static $DB_HOST;
+    private static string $DB_HOST;
 
     /**
      * Database port.
      * @var int
      */
-    private static $DB_PORT = 5432;
+    private static int $DB_PORT = 5432;
 
     /**
      * Get the PDO connection instance.
