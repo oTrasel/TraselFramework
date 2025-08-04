@@ -9,7 +9,7 @@ if ($argc < 2) {
 $nameParts = array_slice($argv, 1);
 $formattedName = implode('', $nameParts);
 $timestamp = date('dmY_His');
-$filename = "{$timestamp}_{$formattedName}.php";
+$filename = "{$timestamp}_$formattedName.php";
 
 $directory = __DIR__ . '/../Database/migrations';
 $filepath = "$directory/$filename";
@@ -36,4 +36,4 @@ PHP;
 
 file_put_contents($filepath, $template);
 $message = "app/Database/migrations/$filename";
-echo "\n\033[32m[MIGRATION CREATED]\033[0m {$message}\n\n";
+echo "\n\033[32m[MIGRATION CREATED]\033[0m $message\n\n";

@@ -9,7 +9,7 @@ if ($argc < 2) {
 $nameParts = array_slice($argv, 1);
 $formattedName = implode('', $nameParts);
 $modelName = $formattedName . 'Model';
-$filename = "{$modelName}.php";
+$filename = "$modelName.php";
 
 $directory = __DIR__ . '/../Models';
 $filepath = "$directory/$filename";
@@ -53,4 +53,4 @@ PHP;
 
 file_put_contents($filepath, $template);
 $message = "app/Models/$filename";
-echo "\n\033[32m[MODEL CREATED]\033[0m {$message}\n\n";
+echo "\n\033[32m[MODEL CREATED]\033[0m $message\n\n";
