@@ -29,15 +29,26 @@ class Routes
     private static $currentPrefix = '';
 
     /**
+     * Middleware to apply in a route
+     * @var array
+     */
+    private static $currentMiddleware = [];
+
+    /**
      * Register a GET route.
      *
      * @param string $endpoint
      * @param string $action
+     * @param array $middleware
      */
-    public static function get($endpoint, $action)
+    public static function get($endpoint, $action, $middleware = [])
     {
         $endpoint = self::applyPrefix($endpoint);
-        self::$routes["GET"][$endpoint] = $action;
+        $middleware = self::applyMiddlewares($middleware);
+        self::$routes["GET"][$endpoint] = [
+            'action' => $action,
+            'middlewares' => $middleware
+        ];
     }
 
     /**
@@ -45,11 +56,16 @@ class Routes
      *
      * @param string $endpoint
      * @param string $action
+     * @param array $middleware
      */
-    public static function post($endpoint, $action)
+    public static function post($endpoint, $action, $middleware = [])
     {
         $endpoint = self::applyPrefix($endpoint);
-        self::$routes["POST"][$endpoint] = $action;
+        $middleware = self::applyMiddlewares($middleware);
+        self::$routes["POST"][$endpoint] = [
+            'action' => $action,
+            'middlewares' => $middleware
+        ];
     }
 
     /**
@@ -69,11 +85,14 @@ class Routes
                 case "prefix":
                     self::$currentPrefix = $val;
                     break;
+                case "middleware":
+                    self::$currentMiddleware = $val;
+                    break;
             }
         }
 
         $callback();
-
+        self::$currentMiddleware = [];
         self::$currentPrefix = null;
     }
 
@@ -87,7 +106,7 @@ class Routes
      */
     private static function applyPrefix(string $endpoint)
     {
-        if (!empty(self::$currentPrefix && self::$currentPrefix !== null)) {
+        if (!empty(self::$currentPrefix) && self::$currentPrefix !== null) {
             if (trim($endpoint) == "/") {
                 $endpoint = self::$currentPrefix . $endpoint;
             } else {
@@ -96,6 +115,21 @@ class Routes
         }
 
         return $endpoint;
+    }
+
+    /**
+     * Applies the group's middleware to the route's middleware.
+     *
+     *
+     * @param array individual route middleware
+     * @return array The array with middlewares
+     */
+    private static function applyMiddlewares($middlewares){
+        if (count(self::$currentMiddleware) > 0 && self::$currentPrefix !== null) {
+            $middlewares = array_merge(self::$currentMiddleware, $middlewares);
+        }
+
+        return $middlewares;
     }
 
 
@@ -111,11 +145,11 @@ class Routes
         $endpoint = $request['endpoint'];
         $handler = $request['handler'];
 
-        if (!isset(self::$routes[$method][$endpoint])) {
+        if (!isset(self::$routes[$method][$endpoint]['action'])) {
             throw new Exception("Endpoint not found");
         }
 
-        $action = explode('@', self::$routes[$method][$endpoint]);
+        $action = explode('@', self::$routes[$method][$endpoint]['action']);
 
         if ($action[1] !== $handler) {
             throw new Exception("Handler not found");

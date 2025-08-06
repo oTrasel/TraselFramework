@@ -3,9 +3,10 @@
 use Helpers\Core\Routes;
 
 Routes::group([
-    'prefix' => 'home'
+    'prefix' => 'home',
+    'middleware' => ['auth']
 ], function () {
-    Routes::get('/', 'HomeController@index');
+    Routes::get('/', 'HomeController@index', ['teste']);
 });
 
 Routes::get('contact', 'ContactController@index');
