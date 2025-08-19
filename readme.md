@@ -77,8 +77,7 @@ app/
 ├── Models/              # Eloquent-style models
 ├── Routes/              # Route definitions (web.php, api.php)
 ├── Views/               # View templates
-├── database/
-│   └── migrations/      # Migration files
+├── database/            # Migration files
 ├── .env                 # Environment variables
 └── index.php            # Application entry point
 vendor/                  # Composer dependencies
@@ -119,18 +118,18 @@ Middlewares allow you to filter or modify HTTP requests before they reach your c
 
    ```php
    <?php
-   namespace App\Middlewares;
+   namespace Middlewares;
 
    class AuthMiddleware
    {
-       public function handle($request, $next)
+       public function handle($request)
        {
            // Example: Check authentication
            if (!isset($request['user'])) {
                header('Location: /login');
                exit;
            }
-           return $next($request);
+           return $request;
        }
    }
    ```
@@ -138,15 +137,14 @@ Middlewares allow you to filter or modify HTTP requests before they reach your c
 2. Register your middleware in the route definition (e.g., in `app/Routes/web.php`):
 
    ```php
-   use App\Middlewares\AuthMiddleware;
 
-   $router->get('/dashboard', 'DashboardController@index', [AuthMiddleware::class]);
+   Routes::get('example', 'HomeController@index', ['TestMiddleware']);
    ```
 
 - You can add multiple middlewares as an array:
 
    ```php
-   $router->get('/profile', 'ProfileController@show', [AuthMiddleware::class, AnotherMiddleware::class]);
+   Routes::get('example', 'HomeController@index', ['TestMiddleware', 'ExampleMiddleware']);
    ```
 
 ---
