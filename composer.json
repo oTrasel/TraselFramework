@@ -5,7 +5,8 @@
             "Routes\\": "app/Routes/",
             "Controllers\\": "app/Controllers/",
             "Models\\": "app/Models/",
-            "Helpers\\": "app/Helpers/"
+            "Helpers\\": "app/Helpers/",
+            "Middlewares\\": "app/Middlewares/"
         }
     },
     "authors": [
@@ -22,6 +23,7 @@
         "make:migration": "php app/Bin/make-migration.php",
         "migrate": "php app/bin/migrate.php up",
         "migrate:rollback": "php app/Bin/migrate.php rollback",
-        "make:model": "php app/Bin/make-model.php"
+        "make:model": "php app/Bin/make-model.php",
+        "make:middleware": "php app/Bin/make-middleware.php"
     }
 }

@@ -161,6 +161,21 @@ class Routes
             throw new Exception("Controller class not found");
         }
 
+        if (isset(self::$routes[$method][$endpoint]["middlewares"]) && count(self::$routes[$method][$endpoint]["middlewares"]) > 0){
+            foreach(self::$routes[$method][$endpoint]["middlewares"] as $mid){
+                $midClass = "Middlewares\\" . $mid;
+                if (!class_exists($midClass)){
+                    throw new Exception("{$mid} - Class Not found");
+                }
+
+                $middleware = new $midClass();
+                if(!method_exists($middleware, "handle")){
+                    throw new Exception("{$mid} - Method Handle Not found");
+                }
+                $middleware->handle($request);
+            }
+        }
+
         $controller = new $class;
 
         if (!method_exists($controller, $handler)) {
