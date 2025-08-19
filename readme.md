@@ -1,90 +1,155 @@
 # TraselFramework
 
-A simple PHP MVC framework with routing, controllers, views, and database migrations.
+A simple, fast PHP MVC framework featuring routing, controllers, views, database migrations, and middleware support.
+
+---
 
 ## Requirements
 
-- PHP 7.4+
+- PHP 7.4 or higher
 - Composer
 - PostgreSQL
 
-## Setup
+---
 
-1. **Clone the repository**
+## Getting Started
 
-   ```sh
-   git clone https://github.com/yourusername/TraselFramework.git
-   cd TraselFramework
-   ```
+### 1. Clone the Repository
 
-2. **Install dependencies**
+```sh
+git clone https://github.com/yourusername/TraselFramework.git
+cd TraselFramework
+```
 
-   ```sh
-   composer install
-   ```
+### 2. Install Dependencies
 
-3. **Configure environment variables**
+```sh
+composer install
+```
 
-   - Copy `.env-exemple` to `.env` in the `app/` directory and update the values as needed:
+### 3. Configure Environment Variables
 
-     ```sh
-     cp app/.env-exemple app/.env
-     ```
+- Copy the example environment file and update your settings:
 
-   - Edit `app/.env` with your database credentials.
+  ```sh
+  cp app/.env-exemple app/.env
+  ```
 
-4. **Run database migrations**
+- Edit `app/.env` with your database credentials and other settings.
 
-   - To create a new migration:
+### 4. Run Database Migrations
 
-     ```sh
-     composer make:migration MigrationName
-     ```
+- **Create a new migration:**
 
-   - To apply migrations:
+  ```sh
+  composer make:migration MigrationName
+  ```
 
-     ```sh
-     composer migrate
-     ```
+- **Apply migrations:**
 
-   - To rollback the last batch of migrations:
+  ```sh
+  composer migrate
+  ```
 
-     ```sh
-     composer migrate:rollback
-     ```
+- **Rollback the last batch of migrations:**
 
-5. **Start the development server**
+  ```sh
+  composer migrate:rollback
+  ```
 
-   ```sh
-   php -S localhost:8000 -t app
-   ```
+### 5. Start the Development Server
 
-   Visit [http://localhost:8000](http://localhost:8000) in your browser.
+```sh
+php -S localhost:8000 -t app
+```
+
+Visit [http://localhost:8000](http://localhost:8000) in your browser.
+
+---
 
 ## Project Structure
 
-- `app/Controllers/` - Controller classes
-- `app/Helpers/` - Core helpers (Database, Routes, View)
-- `app/Models/` - Models (empty by default)
-- `app/Routes/` - Route definitions (`web.php`, `api.php`)
-- `app/Views/` - View templates
-- `app/database/migrations/` - Migration files
-- `app/index.php` - Entry point
-- `vendor/` - Composer dependencies
+```
+app/
+├── Controllers/         # Controller classes
+├── Helpers/             # Core helpers (Database, Routes, View)
+├── Middlewares/         # Middleware classes
+├── Models/              # Eloquent-style models
+├── Routes/              # Route definitions (web.php, api.php)
+├── Views/               # View templates
+├── database/
+│   └── migrations/      # Migration files
+├── .env                 # Environment variables
+└── index.php            # Application entry point
+vendor/                  # Composer dependencies
+```
+
+---
 
 ## Usage
 
-- Define routes in [`app/Routes/web.php`](app/Routes/web.php) and [`app/Routes/api.php`](app/Routes/api.php).
-- Create controllers in [`app/Controllers/`](app/Controllers/).
-- Add views in [`app/Views/`](app/Views/).
+- **Define routes:**  
+  In [`app/Routes/web.php`](app/Routes/web.php) and [`app/Routes/api.php`](app/Routes/api.php).
+
+- **Create controllers:**  
+  In [`app/Controllers/`](app/Controllers/).
+
+- **Add views:**  
+  In [`app/Views/`](app/Views/).
+
+---
 
 ## ORM
 
-   - To create an Model:
+- **Create a model:**
 
-     ```sh
-     composer make:model ModelName
-     ```
+  ```sh
+  composer make:model ModelName
+  ```
+
+---
+
+## Middlewares
+
+Middlewares allow you to filter or modify HTTP requests before they reach your controllers (e.g., authentication, logging).
+
+### Creating a Middleware
+
+1. Create a new PHP class in `app/Middlewares/`, e.g., `AuthMiddleware.php`:
+
+   ```php
+   <?php
+   namespace App\Middlewares;
+
+   class AuthMiddleware
+   {
+       public function handle($request, $next)
+       {
+           // Example: Check authentication
+           if (!isset($request['user'])) {
+               header('Location: /login');
+               exit;
+           }
+           return $next($request);
+       }
+   }
+   ```
+
+2. Register your middleware in the route definition (e.g., in `app/Routes/web.php`):
+
+   ```php
+   use App\Middlewares\AuthMiddleware;
+
+   $router->get('/dashboard', 'DashboardController@index', [AuthMiddleware::class]);
+   ```
+
+- You can add multiple middlewares as an array:
+
+   ```php
+   $router->get('/profile', 'ProfileController@show', [AuthMiddleware::class, AnotherMiddleware::class]);
+   ```
+
+---
 
 ## License
 
